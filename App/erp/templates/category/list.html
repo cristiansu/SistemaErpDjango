@@ -1,0 +1,35 @@
+{% extends 'lista.html' %}
+
+
+
+{% block columns %}
+
+<thead>
+    <tr>
+        <th scope="col">N°</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Opciones</th>
+    </tr>
+</thead>
+
+
+{% endblock %}
+
+
+{% block rows %}
+
+{% for cat in object_list %}
+<tr>
+    <th scope="row">{{cat.id}}</th>
+    <td>{{cat.name}}</td>
+    <td>{{cat.desc}}</td>
+    <td>
+        <a href="{% url 'erp:category_update' cat.id %}" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i>Editar</a>
+        <a href="{% url 'erp:category_delete' cat.id %}" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i>Eliminar</a>
+    </td>
+</tr>
+
+{% endfor %}
+
+{% endblock %}
