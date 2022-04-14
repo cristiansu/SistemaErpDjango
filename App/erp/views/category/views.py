@@ -14,13 +14,13 @@ from App.erp.forms import CategoryForm
 
 
 
-def category_list(request):
-    data = {
+# def category_list(request):
+#     data = {
 
-        'title': 'Lista Categorias',
-        'categories': Category.objects.all()
-    }
-    return render(request, 'category/list.html', data)
+#         'title': 'Lista Categorias',
+#         'categories': Category.objects.all()
+#     }
+#     return render(request, 'category/list.html', data)
 
 class CategoryListView(ListView):
     model = Category
@@ -36,12 +36,20 @@ class CategoryListView(ListView):
     def post(self, request, *args, **kwargs):
         data={}
         try:
-            data = Category.objects.get(pk=request.POST['id']).toJSON()
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Category.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+
+            #data = Category.objects.get(pk=request.POST['id']).toJSON()
             #cat = Category.objects.get(pk=request.POST['id'])
             #data['name'] = cat.name
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

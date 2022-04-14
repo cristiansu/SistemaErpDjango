@@ -1,4 +1,4 @@
-{% extends 'body.html' %}
+{% extends 'layout.html' %}
 
 {% load widget_tweaks %}
 
@@ -7,7 +7,7 @@
 
 <form action="." method="post">
 
-    <div class="card card-default">
+    <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">
                 {% if action == 'add' %}
@@ -93,7 +93,7 @@
             text: errors,
             icon: 'error'
             // confirmButtonText: 'Cool'
-        })
+        });
 
     {% endif %}
 
@@ -103,7 +103,6 @@
 
         var parameters = $(this).serializeArray();
         //console.log(parameters); serializeArray convierte todos los input del formulario a diccionario
-        
         $.ajax({
 
             //url: "{% url 'erp:category_create' %}",

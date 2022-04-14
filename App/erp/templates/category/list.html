@@ -1,25 +1,26 @@
 {% extends 'lista.html' %}
 
+{% load static %}
 
+{% block head_list %}
+    <script src="{% static 'category/js/list.js' %}"></script>
+{% endblock %}
 
 {% block columns %}
 
-<thead>
-    <tr>
-        <th scope="col">N°</th>
-        <th scope="col">Categoria</th>
-        <th scope="col">Descripción</th>
-        <th scope="col">Opciones</th>
-    </tr>
-</thead>
-
+<tr>
+    <th scope="col">N°</th>
+    <th scope="col">Categoria</th>
+    <th scope="col">Descripción</th>
+    <th scope="col">Opciones</th>
+</tr>
 
 {% endblock %}
 
 
 {% block rows %}
 
-{% for cat in object_list %}
+<!-- {% for cat in object_list %}
 <tr>
     <th scope="row">{{cat.id}}</th>
     <td>{{cat.name}}</td>
@@ -30,6 +31,11 @@
     </td>
 </tr>
 
-{% endfor %}
+{% endfor %} -->
+
+{% endblock %}
+
+
+{% block javascript %}
 
 {% endblock %}

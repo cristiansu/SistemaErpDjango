@@ -1,4 +1,4 @@
-{% extends 'body.html' %}
+{% extends 'layout.html' %}
 
 {% load static %}
 
@@ -12,11 +12,15 @@
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
 
+  {% block head_list %}
+
+  {% endblock %}
+
 {% endblock %}
 
 {% block content %}
 
-<div class="card card-default">
+<div class="card card-primary">
   <div class="card-header">
     <h3 class="card-title">
       <i class="fas fa-search"></i>
@@ -29,21 +33,19 @@
 
     <table class="table" id="data">
 
-      {% block columns %}
-      {% endblock %}
+      <thead>
+        {% block columns %}
 
+        {% endblock %}
+      </thead>
 
-      {% block rows %}
-      {% endblock %}
+      <tbody>
+        {% block rows %}
 
+        {% endblock %}
+      </tbody>
 
     </table>
-
-
-
-
-
-
 
   </div>
   <!-- /.card-body -->
@@ -76,8 +78,8 @@
 
         }).done(function (data) {
           console.log(data);
-        }).fail(function (data) {
-          alert("error");
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          alert(textStatus + ': ' + errorThrown);
         }).always(function (data) {
         });
             
