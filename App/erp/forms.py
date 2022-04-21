@@ -1,8 +1,9 @@
 from dataclasses import fields
 from tkinter import Widget
 from turtle import textinput
+from django import forms
 from django.forms import ModelForm, TextInput, Textarea
-from App.erp.models import Category
+from App.erp.models import Category, Product
 
 class CategoryForm(ModelForm):
 
@@ -53,4 +54,49 @@ class CategoryForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
 
+        return data
+
+
+    # el método clean se usa para controlar errores q no tienen relación directa con un campo de la base de datos. por ejemplo la cantidad
+    # de caracteres q básicamente si es de 1 o 2 o más caracteres para el modelo no sería problema, pero si sería importante de haber 
+    # alguna necesidad de controlarlo
+    #---para probar se debe verificar estar en la url correcta, es decir la del formView
+    def clean(self):
+        cleaned = super().clean() #esta variable cleaned arroja un diccionario con los componentes del formulario, es decir se puede acceder a ellos
+        if len(cleaned['name']) <= 2:
+            #self.add_error('name', 'No cumple mínimo de caracteres')
+            #----para cuando se quieren controlar errores q no tienen relación alguna con los componentes del formulario 
+            # se usa el método ValidationError antecedido por la palabra reservada 'raise'. además se debe ajustar el html para ver estos errores
+            raise forms.ValidationError('Validación método clean category/forms.py')
+
+        return cleaned
+
+
+#-----------Form para productos ----------------------------
+class ProductForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['autofocus'] = True
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+        widgets = {
+            'name': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese nombre del producto',
+                }
+            ),
+        }
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
         return data

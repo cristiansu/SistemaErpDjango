@@ -70,6 +70,9 @@
                 <i class="fas fa-save"></i>
                 Guardar
             </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
         </div>
     </div>
 
@@ -85,8 +88,15 @@
         {% for field in form %}
             {% for error in field.errors %}
                 errors += '{{ error }}\n';
-            {% endfor %}
+            {% endfor %}         
         {% endfor %}
+            
+        // método de control errores método ValidationError del forms.py
+
+        {% for error in form.non_field_errors %}
+            errors += '{{ error }}\n';
+        {% endfor %}  
+
 
         Swal.fire({
             title: 'Error!',
@@ -101,9 +111,17 @@
     $('form').on('submit', function (e) {
         e.preventDefault(); //corta la secuencia por defecto, en este caso evitará que se guarde el nuevo registro categoría
 
-        var parameters = $(this).serializeArray();
+        // var parameters = $(this).serializeArray();  --------se usará new FormData() para gestionar todo tipo de datos textos e imágenes
         //console.log(parameters); serializeArray convierte todos los input del formulario a diccionario
-        $.ajax({
+        var parameters = new FormData(this);
+
+        submit_with_ajax (window.location.pathname, 'Notificación', '¿Estás seguro de agregar este registro?',parameters, function (){
+            location.href = '{{ list_url }}';
+
+        });
+
+        // se dejará comentado el ajax pq en functions.js se sobre escribió para usarse con el pluggin jquery confirm
+        /*$.ajax({
 
             //url: "{% url 'erp:category_create' %}",
             url: window.location.pathname, //de esta forma se puede extender a cualquier url
@@ -121,9 +139,10 @@
             alert(textStatus + ': ' + errorThrown);
         }).always(function (data) {
 
-        });
+        });*/
 
     });
+
 
 
 </script>

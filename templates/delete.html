@@ -78,10 +78,15 @@
     $('form').on('submit', function (e) {
         e.preventDefault(); //corta la secuencia por defecto, en este caso evitará que se guarde el nuevo registro categoría
 
-        var parameters = $(this).serializeArray();
+        //var parameters = $(this).serializeArray();
         //console.log(parameters); serializeArray convierte todos los input del formulario a diccionario
+        var parameters = new FormData(this);
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estás seguro de eliminar este registro?', parameters, function (){
+            location.href = '{{ list_url }}';
+
+        });
         
-        $.ajax({
+        /*$.ajax({
 
             //url: "{% url 'erp:category_create' %}",
             url: window.location.pathname, //de esta forma se puede extender a cualquier url
@@ -99,7 +104,7 @@
             alert(textStatus + ': ' + errorThrown);
         }).always(function (data) {
 
-        });
+        });*/
 
     });
 

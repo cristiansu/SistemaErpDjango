@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     #AppCreadas
     'App.erp',
+    'App.homepage',
+    'App.login',
 ]
 
 MIDDLEWARE = [
@@ -120,13 +122,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 #ruta de staticfiles creada
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#LOGIN_REDIRECT_URL = '/erp/category/list/' #es requerido por LoginView para redirigir cuando el usario haga el login y sea validado
+LOGIN_REDIRECT_URL = '/erp/dashboard/'
+
+LOGOUT_REDIRECT_URL = '/login/'  #se puede dar este parámetro o bien indicar el next_page en la url del LogoutView
+
+LOGIN_URL = '/login/' # se usa para redireccionar aquí a las vistas protegidas por login
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+MEDIA_URL = '/media/'

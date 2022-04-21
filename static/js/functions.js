@@ -21,3 +21,57 @@ function message_error(obj) {
         
     });
 }
+
+// esta es la función creada con el plugin jquery confirm. Se cortó la función ajax de los videos 40 y anteriores y se pegó en action
+function submit_with_ajax (url, title, content, parameters, callback) {
+    $.confirm({
+        theme: 'material',
+        title: title,
+        icon: 'fa fa-info',
+        content: content,
+        columnClass: 'medium',
+        typeAnimated: true,
+        cancelButtonClass: 'btn-primary',
+        draggable: true,
+        dragWindowBorder: false,
+        buttons: {
+            info: {
+                text: "Si",
+                btnClass: 'btn-primary',
+                action: function () {
+                    $.ajax({
+
+                        //url: "{% url 'erp:category_create' %}",
+                        url: url, //de esta forma se puede extender a cualquier url window.location.pathname
+                        type: 'POST',
+                        data: parameters, //son todos los campos recogidos desde el formulario crear categoría
+                        dataType: 'json',
+                        processData: false, //processData y contentType se ponen en false para recibir input imagen
+                        contentType: false,
+            
+                    }).done(function (data) {
+                        if (!data.hasOwnProperty('error')) {
+                            //location.href = '{{ list_url }}'; se comenta para dejarla como parámetro y usar callback genérico
+                            callback();
+                            return false; //return false implica salir del ciclo
+                        }
+                        message_error(data.error);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(textStatus + ': ' + errorThrown);
+                    }).always(function (data) {
+            
+                    });
+                    
+                }
+            },
+            danger: {
+                text: "No",
+                btnClass: 'btn-red',
+                action: function () {
+                    
+                }
+            },
+        }
+    })
+
+}
