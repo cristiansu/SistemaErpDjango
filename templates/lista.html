@@ -50,6 +50,9 @@
   </div>
   <!-- /.card-body -->
   <div class="card-footer">
+
+  {% block buttons_list %}
+
     <a href="{{ create_url }}" class="btn btn-primary btn-flat btnTest">
       <i class="fas fa-plus"></i>
       Agregar
@@ -57,6 +60,9 @@
     <a href="{{ list_url }}" class="btn btn-success btn-flat">
       <i class="fas fa-sync"></i> Actualizar
     </a>
+
+  {% endblock %}
+
   </div>
 </div>
 
@@ -84,6 +90,7 @@
         }).fail(function (jqXHR, textStatus, errorThrown) {
           alert(textStatus + ': ' + errorThrown);
         }).always(function (data) {
+        
         });
             
       });

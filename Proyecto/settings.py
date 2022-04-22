@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'App.erp',
     'App.homepage',
     'App.login',
+    'App.user',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'Proyecto.urls'
@@ -147,3 +149,5 @@ LOGIN_URL = '/login/' # se usa para redireccionar aquí a las vistas protegidas 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'user.User'

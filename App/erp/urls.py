@@ -3,6 +3,8 @@ from django.urls import path, include
 from App.erp.views.category.views import *
 from App.erp.views.product.views import *
 from App.erp.views.dashboard.views import *
+from App.erp.views.test.views import TestView
+from App.erp.views.client.views import ClientView
 
 
 app_name = 'erp'
@@ -21,6 +23,11 @@ urlpatterns = [
     path('product/add/', ProductCreateView.as_view(), name='product_create'),
     path('product/update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
     path('product/delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
+    #test select anidados
+    path('test/', TestView.as_view(), name='test'),
+    # client
+    path('client/', ClientView.as_view(), name='client'),    
+
     
     
     
