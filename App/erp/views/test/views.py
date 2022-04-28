@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 
 from App.erp.forms import TestForm
-from App.erp.models import Product
+from App.erp.models import Product, Category
 
 
 class TestView(TemplateView):
@@ -23,12 +23,18 @@ class TestView(TemplateView):
         try:
             action = request.POST['action']
             if action == 'search_product_id':
-                #data = [] no se usará pq para select2 se debe entregar el vacio según formato
+                #data = [] no se usará pq para select2 se debe entregar el vacio(-------) según formato
                 data = [{'id':'', 'text': '----------------'}] #será el valor por defecto vacio requerido por select2
                 for i in Product.objects.filter(cate_id=request.POST['id']):
                     #data.append({'id':i.id, 'name':i.name}) se comenta pq para usar select2 se debe indicar como text
                     data.append({'id':i.id, 'text':i.name, 'data':i.cate.toJSON()})
-
+            elif action == 'autocomplete':
+                data = []
+                for i in Category.objects.filter(name__icontains=request.POST['term'])[0:10]: #term se define el el ajax del form.html
+                    item = i.toJSON()
+                    #item['value'] = i.name #se crea variable pq item es un diccionario con 2 claves level y value, sólo necesitamos value
+                    item['text'] = i.name #se sobre escribre linea anterior para usar select2 que requiere text
+                    data.append(item)    
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:

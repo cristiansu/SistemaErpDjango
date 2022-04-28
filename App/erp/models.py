@@ -26,7 +26,7 @@ class Category(BaseModel):
                 self.user_updated = user
         super(Category, self).save()
 
-    def toJSON(self):
+    def toJSON(self, exclude=['user_creation', 'user_updated']):
         # item = {'id':self.id, 'name':self.name, 'descripcion':self.desc} es una forma, la segunda es usar el método model_to_dict
         item = model_to_dict(self)
         return item
@@ -70,7 +70,7 @@ class Client(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
-        item['gender'] = self.get_gender_display()
+        item['gender'] = {'id':self.gender, 'name':self.get_gender_display()} 
         item['date_birthday'] = self.date_birthday.strftime('%Y-%m-%d')
         return item
     

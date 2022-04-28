@@ -1,5 +1,6 @@
 from pyexpat import model
 import re
+from unicodedata import name
 from django.contrib.auth.decorators import login_required
 from statistics import mode
 from django.shortcuts import render, redirect
@@ -11,6 +12,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 from App.erp.forms import CategoryForm
+from App.erp.mixins import IsSuperuserMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -23,16 +26,18 @@ from App.erp.forms import CategoryForm
 #     }
 #     return render(request, 'category/list.html', data)
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, IsSuperuserMixin, ListView): #se usa mixin para controlar acceso sólo para super user
     model = Category
     template_name = 'category/list.html'
 
     @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
+    #@method_decorator(login_required) ----se comenta pq se usa el mixin de django LoginRequiredMixin
     def dispatch(self, request, *args, **kwargs):
         # if request.method == 'GET':
         #     return redirect('erp:category_list2')
-
+        # if request.user.is_superuser:       ----------------------estas 3 líneas se comentan pq se usará la clase mixin creada en mixins.py
+        #     return super().dispatch(request, *args, **kwargs)
+        # return redirect('index')
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

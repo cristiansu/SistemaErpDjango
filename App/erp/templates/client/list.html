@@ -23,7 +23,7 @@
 
 {% block buttons_list %}
 
-<a class="btn btn-primary btn-flat btnAdd">
+<a class="btn btn-primary btn-flat btnAdd" style="color: white;">
   <i class="fas fa-plus"></i>
   Agregar
 </a>
@@ -43,7 +43,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title">
+                        <b><i class="fas fa-search"></i> <span></span></b>
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -52,6 +54,8 @@
                     <div class="container-fluid">
                         <!-- el input hidden se crea para pasar el value=add al ajax y luego a la vista -->
                         <input type="hidden" name="action" value="add">
+                        <!-- el input hidden se crea para rescatar el id y pasarlo a la vista -->
+                        <input type="hidden" name="id" id="id" value="0">
                         {% for field in form.visible_fields %}
                         <div class="form-group">
                             <label for="email">{{ field.label }}</label>
@@ -62,8 +66,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button> -->
+                    <button type="submit" class="btn btn-primary btn-flat btn-block"><i class="fas fa-save"></i> Guardar</button>
                 </div>
             </div>
         </div>

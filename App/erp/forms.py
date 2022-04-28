@@ -116,7 +116,17 @@ class TestForm(Form):
         'class': 'form-control select2',
         'style': 'width:100%'
     }))
+
+    #este código search se usa para jquery ui. se comenta para usar select2
+    # search = CharField(widget=TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder': 'Ingresar descripción'
+    # }))
     
+    search = ModelChoiceField(queryset=Product.objects.none(), widget=Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width:100%'
+    }))    
 
 class ClientForm(ModelForm):
     def __init__(self, *args, **kwargs):
